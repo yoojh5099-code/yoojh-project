@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Workspace{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-logo">⚡</span>
+            <span class="sidebar-title">Workspace</span>
+        </div>
+        <ul class="sidebar-nav">
+            {% for module in modules %}
+            <li class="sidebar-item {% if active_module == module.id %}active{% endif %}">
+                <a href="{{ module.url }}">
+                    <span class="sidebar-icon">{{ module.icon }}</span>
+                    <span class="sidebar-label">{{ module.name }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
