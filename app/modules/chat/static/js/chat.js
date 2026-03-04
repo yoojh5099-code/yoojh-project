@@ -167,6 +167,8 @@ async function handleSend() {
 
     try {
         const result = await sendMessage(currentConvId, content);
+        console.log('[DEBUG] API response:', result);
+        console.log('[DEBUG] Assistant message:', result.assistant_message);
         hideLoading();
         appendMessage('assistant', result.assistant_message.content);
 
@@ -174,6 +176,7 @@ async function handleSend() {
         const conversations = await fetchConversations();
         renderConversations(conversations);
     } catch (err) {
+        console.error('[DEBUG] Error:', err);
         hideLoading();
         appendMessage('assistant', '⚠️ 오류가 발생했습니다. 다시 시도해주세요.');
     } finally {

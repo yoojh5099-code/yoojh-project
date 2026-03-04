@@ -158,12 +158,18 @@ class ChatService:
             raise RuntimeError(f"요청 처리 중 오류가 발생했습니다: {e.response.status_code}")
 
         # Parse response - try common formats
+        import sys
+        print(f"[DEBUG] n8n raw response: {response.text}", file=sys.stderr, flush=True)
         try:
             data = response.json()
+            print(f"[DEBUG] n8n parsed JSON: {data}", file=sys.stderr, flush=True)
             if isinstance(data, str):
                 return data
             if isinstance(data, dict):
-                return data.get('output', data.get('response', data.get('text', str(data))))
+                result = data.get('output', data.get('response', data.get('text', str(data))))
+                print(f"[DEBUG] Extracted result: {result}", file=sys.stderr, flush=True)
+                return result
             return str(data)
         except ValueError:
+            print(f"[DEBUG] Failed to parse JSON, returning text: {response.text}", file=sys.stderr, flush=True)
             return response.text
